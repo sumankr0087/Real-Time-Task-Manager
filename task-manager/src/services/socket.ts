@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = 'wss://api.example.com'; // Replace with your WebSocket server URL
+const SOCKET_URL = 'http://localhost:3001';
 
 export const socket = io(SOCKET_URL, {
   autoConnect: false,

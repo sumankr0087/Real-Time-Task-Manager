@@ -1,34 +1,46 @@
-import { create } from 'zustand';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Task, TaskStatus } from '../types/task';
 
-interface TaskStore {
+interface TaskState {
   tasks: Task[];
   filter: TaskStatus | 'all';
   sortBy: 'dueDate' | 'createdAt';
-  setTasks: (tasks: Task[]) => void;
-  addTask: (task: Task) => void;
-  updateTask: (taskId: string, updates: Partial<Task>) => void;
-  deleteTask: (taskId: string) => void;
-  setFilter: (filter: TaskStatus | 'all') => void;
-  setSortBy: (sortBy: 'dueDate' | 'createdAt') => void;
 }
 
-export const useTaskStore = create<TaskStore>((set) => ({
+const initialState: TaskState = {
   tasks: [],
   filter: 'all',
   sortBy: 'dueDate',
-  setTasks: (tasks) => set({ tasks }),
-  addTask: (task) => set((state) => ({ tasks: [...state.tasks, task] })),
-  updateTask: (taskId, updates) =>
-    set((state) => ({
-      tasks: state.tasks.map((task) =>
-        task.id === taskId ? { ...task, ...updates } : task
-      ),
-    })),
-  deleteTask: (taskId) =>
-    set((state) => ({
-      tasks: state.tasks.filter((task) => task.id !== taskId),
-    })),
-  setFilter: (filter) => set({ filter }),
-  setSortBy: (sortBy) => set({ sortBy }),
-}));
+};
+
+const taskSlice = createSlice({
+  name: 'tasks',
+  initialState,
+  reducers: {
+    setTasks(state, action: PayloadAction<Task[]>) {
+      state.tasks = action.payload;
+    },
+    addTask(state, action: PayloadAction<Task>) {
+      state.tasks.push(action.payload);
+    },
+    updateTask(state, action: PayloadAction<{ taskId: string; updates: Partial<Task> }>) {
+      const { taskId, updates } = action.payload;
+      const task = state.tasks.find((task) => task.id === taskId);
+      if (task) {
+        Object.assign(task, updates);
+      }
+    },
+    deleteTask(state, action: PayloadAction<string>) {
+      state.tasks = state.tasks.filter((task) => task.id !== action.payload);
+    },
+    setFilter(state, action: PayloadAction<TaskStatus | 'all'>) {
+      state.filter = action.payload;
+    },
+    setSortBy(state, action: PayloadAction<'dueDate' | 'createdAt'>) {
+      state.sortBy = action.payload;
+    },
+  },
+});
+
+export const { setTasks, addTask, updateTask, deleteTask, setFilter, setSortBy } = taskSlice.actions;
+export default taskSlice.reducer;
