@@ -1,5 +1,5 @@
 # Task Management App
-A simple task management app built with Next.js and Tailwind CSS, allowing users to add, edit, delete, and manage tasks based on priority and completion status.
+A simple task management app built with React.js and Tailwind CSS, allowing users to add, edit, delete.
 
 # Features
 Add, edit, and delete tasks.
@@ -49,7 +49,7 @@ npm install
 ```
 yarn install 
 ```
-This will install all the packages listed in the package.json file, including Next.js, Tailwind CSS, and any other dependencies.
+This will install all the packages listed in the package.json file, including React.js, Tailwind CSS, and any other dependencies.
 
 4. Start the Development Server
 To run the app in development mode with hot reloading:
@@ -59,12 +59,8 @@ To run the app in development mode with hot reloading:
 npm run dev
 ```
 
-# If using yarn
-```
-yarn dev
-```
-This will start the Next.js development server, and you can view the app at:
+This will start the React.js development server, and you can view the app at:
 
 ```
-http://localhost:3000
+http://localhost:5173
 ```
